@@ -4,16 +4,21 @@ Final Project for DSC 80 at UCSD
 Matti Key
 
 ## Introduction 
-In this project, I will be analyzing the League of Legends (LoL) 2022 Competition dataset. LoL is a multiplayer online battle arena (MOBA) game in which the player controls a character ("champion") with a set of unique abilities from an isometric perspective. The game first gained popularity in 2009 and has only grown since, although simply a video game, the game gives lots of insight into how individuals may improve over time, how each position is valued, and how teamwork can make or break a win for a team. 
+This project focuses on analyzing the **League of Legends (LoL) 2022 Competition Dataset**, which contains detailed statistics for over 150,000 games played in 2022. LoL is one of the most popular multiplayer online battle arena (MOBA) games in the world, captivating millions of players and fans since its release in 2009. The game's competitive nature, reliance on teamwork, and strategic depth make it a rich source of data for studying performance and collaboration.
 
-Throughout this analysis, I will be analyzing player's early game statistics to see how the later game statistics are affected. The results of this analysis can be replicated into real-world themes, like the effectiveness of working in a team in the workplace and having roles set, how early career contributions could be an insight into how an individual may do later in their career, 
+At its core, LoL is a game of roles, timing, and teamwork, where each player takes on a specific position to contribute to the team’s overall success. The dataset provides a unique opportunity to explore how early-game performance metrics—like gold earned, experience gained, and damage dealt—translate to success later in the game. This analysis could uncover patterns that mirror real-world dynamics, such as the importance of early contributions to long-term outcomes and the value of role specialization in team settings.
 
-The main question being asked throughout this analysis is **how much can early statistics tell us about a player later on**? Throughout this analysis, I will be cleaning data, assessing missingness, competeting a hypothesis test and predictive model to try and answer this question. 
+The central question guiding this project is: **To what extent can early-game statistics predict a player's performance later in the game?**
 
-The original dataset contains over 150,000 rows and 160 columns all containing information about each player, their specific statistic, and each game played in 2022. The dataset can be found here: [Link to LoL Dataset](https://en.wikipedia.org/wiki/League_of_Legends) 
+This question matters because it goes beyond the game itself. Understanding the relationship between early-game contributions and later performance has implications for broader themes like:
+- **Team Dynamics:** How does a team’s early coordination and individual role fulfillment contribute to long-term success? These findings could apply to workplace teams, where early collaboration and clearly defined roles can impact overall productivity.
+- **Performance Forecasting:** Can we predict future outcomes based on initial efforts? This concept is relevant to fields like education, career development, and project management, where early indicators often signal future success.
+- **Skill Development:** How do early achievements in a structured environment like LoL translate to long-term skill improvement? This could provide insights into training and growth, applicable to sports, education, and even professional development.
 
-### Columns
-As stated before, this dataset is vast and contains information about dynamics, comparisons to competitors, team values, and individual values as well. To gain some perspective on the question in focus, these are the columns that I will be using throughout this analysis:
+By answering this question, this project aims to provide a deeper understanding of performance metrics, teamwork, and the strategic importance of early contributions in both gaming and real-world scenarios.
+
+### Dataset Overview
+The dataset comprises over 150,000 rows and 160 columns, capturing granular information about individual players, team dynamics, and game outcomes. For the purposes of this analysis, the following columns are most relevant:
 
 | Column Name      | Description                                                                 |
 |------------------|-----------------------------------------------------------------------------|
@@ -30,6 +35,8 @@ As stated before, this dataset is vast and contains information about dynamics, 
 | `earnedgoldshare`| The percentage of the team’s total gold earned by the player. |
 | `result`         | The outcome of the game for the player’s team, typically represented as `1` (Win) or `0` (Loss). |
 
+These columns were chosen because they provide insight into the early-game performance of players (`goldat10`, `xpat10`, etc.) and the outcomes of those performances (`result`, `damageshare`, etc.). By analyzing these metrics, the project seeks to uncover how individual contributions at specific points in the game influence overall success.
+[Link to LoL Dataset](https://en.wikipedia.org/wiki/League_of_Legends) 
 
 ## Data Cleaning and Explanatory Data Analysis
 ### Data Cleaning
@@ -45,10 +52,30 @@ The first thing I did when cleaning this dataset was only focus on the columns t
 
 ### Univariate Analysis
 
-<iframe src="graphs/goldat10.html" width="800" height="600" frameborder="0" ></iframe>
+First, I want to look at the distribution of the total amount of gold earned by a player at the 10-minute mark.
+<iframe src="graphs/goldat10.html" width="800" height="600" frameborder="0" ></iframe>.  As shown, there looks to be a "mini" bimodal graph, where a majority of the distribution is between the bins 2k and 5.5k, but another small peak between the bins 14k and 17k, but the graph is still heavily skewed to the right. This could be due to a number of things 
+
+### Bivariate Analysis
+
+Due to the large spread shown during the univariate analysis, I want to look at the breakdown of the goldat15 distribution and find any trends that may be able to explain the huge separation. <> Here we see the earnedgoldshare and xpat10 by position
+
+
+### Interesting Aggregates
+I grouped together the positions, and found the average goldat10, the standard deviation of goldat10, the average xpat10, and the standard deviation xpat10. With this, we can see that the average gold and experience varies a lot on the position someone is playing, hence showing that not all roles are able to earn the same amount of gold. 
+
+| Position   | Avg Gold at 10 | Std Gold at 10 | Avg XP at 10 | Std XP at 10 |
+|------------|----------------|----------------|--------------|--------------|
+| Bot Lane   | 3676.60        | 767.30         | 3645.65      | 1072.68      |
+| Jungle     | 3619.29        | 769.53         | 3781.89      | 1022.62      |
+| Mid Lane   | 3686.79        | 715.17         | 4828.82      | 605.56       |
+| Support    | 2732.44        | 1090.76        | 3004.38      | 1329.97      |
+| Top Lane   | 3556.54        | 777.64         | 4774.39      | 651.35       |
+
 
 
 ## Assessment of Missingness
+### NMAR Analysis 
+The columns
 
 ## Hypothesis Test 
 
