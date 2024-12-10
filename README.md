@@ -45,6 +45,8 @@ The first thing I did when cleaning this dataset was only focus on the columns t
 
 ### Univariate Analysis
 
+<iframe src="graphs/goldat10.html" width="800" height="600" frameborder="0" ></iframe>
+
 
 ## Assessment of Missingness
 
