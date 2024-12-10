@@ -16,10 +16,18 @@ The original dataset contains over 150,000 rows and 160 columns all containing i
 As stated before, this dataset is vast and contains information about dynamics, comparisons to competitors, team values, and individual values as well. To gain some persepctive on the question in focus, these are the columns that I will be using throughout this analysis:
 | Column Name | Description |
 | -------- | ------- |
-| `position` | $250 |
-| February | $80 |
-| March | $420 |
-
+| `position` | The position of the player (Top Lane, Jungle, Mid Lane, Bot Lane, or Support) |
+| `goldat10` | $80 |
+| `goldat15` | $250 |
+| `xpat10` | $420 |
+| `csat10_diff` | $250 |
+| `goldat15_diff` | $250 |
+| `xpat10_diff` | $250 |
+| `damageshare` | $250 |
+| `kills` | $250 |
+| `teamkills` | $250 |
+| `earnedgoldshare` | $250 |
+| `result` | $250 |
 
 
 
