@@ -1,5 +1,5 @@
 # League-Of-Legends-Analysis
-Final Project for DSC 80 at UCSD
+Final Project for DSC 80 at UCSD \\
 Matti Key
 
 ## League of Legends Game Contribution Analysis
