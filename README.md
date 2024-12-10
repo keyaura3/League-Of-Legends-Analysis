@@ -12,6 +12,15 @@ The main question being asked throughout this analysis is **how much can early s
 
 The original dataset contains over 150,000 rows and 160 columns all containing information about each player, their specific statistic and each game played in 2022. The dataset can be found here: [Link to LoL Dataset](https://en.wikipedia.org/wiki/League_of_Legends) 
 
+### Columns
+As stated before, this dataset is vast and contains information about dynamics, comparisons to competitors, team values, and individual values as well. To gain some persepctive on the question in focus, these are the columns that I will be using throughout this analysis:
+| Column Name | Description |
+| -------- | ------- |
+| `position` | $250 |
+| February | $80 |
+| March | $420 |
+
+
 
 
 ## Data Cleaning and Explanatory Data Analysis
