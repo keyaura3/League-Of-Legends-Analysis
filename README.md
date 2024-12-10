@@ -1,24 +1,29 @@
-# League-Of-Legends-Analysis
+# League of Legends Game Contribution Analysis
 Final Project for DSC 80 at UCSD 
 
 Matti Key
 
-## League of Legends Game Contribution Analysis
+## Introduction 
+In this project, I will be analyzing the League of Legends (LoL) 2022 Competition dataset. LoL is a multiplayer online battle arena (MOBA) game in which the player controls a character ("champion") with a set of unique abilities from an isometric perspective. The game first gained popularity in 2009 and has only grown since, although simply a video game, the game gives lots of insight into how individuals may improve over time, how each position is valued, and how teamwork can make or break a win for a team. 
 
-### Introduction 
-In this project, I will be 
+Throughout this analysis, I will be analyzing player's early game statistics to see how the later game statistics are affected. The results of this analysis can be replicated into real-world themes, like the effectiveness in working in a team in the work place and having roles set, how early career contributions could be an insight into how an individual may do later in their career, 
 
-### Data Cleaning and Explanatory Data Analysis
+The main question being asked throughout this analysis is **how much can early statistics tell us about a player later on**? Throughout this analysis, I will be cleaning data, assessing missingness, competeting a hypothesis test and predicitive model to try and answer this question. 
 
-### Assessment of Missingness
+The original dataset contains over 150,000 rows and 160 columns all containing information about each player, their specific statistic and each game played in 2022. The dataset can be found here: [Link to LoL Dataset](https://en.wikipedia.org/wiki/League_of_Legends) 
 
-### Hypothesis Test 
 
-### Framing a Prediction Problem
 
-### Baseline Model
+## Data Cleaning and Explanatory Data Analysis
 
-### Final Model 
+## Assessment of Missingness
 
-### Fairness Analysis
-some more edits
+## Hypothesis Test 
+
+## Framing a Prediction Problem
+
+## Baseline Model
+
+## Final Model 
+
+## Fairness Analysis
