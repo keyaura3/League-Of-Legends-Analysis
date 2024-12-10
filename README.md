@@ -43,6 +43,8 @@ The first thing I did when cleaning this dataset was only focus on the columns t
 | Bot Lane   | 3600.0   | 5461.0   | 3103.0 | -12.0       | -793.0        | 265.0       | 0.20        | 2     | 9         | 0.24            | 0      |
 | Support    | 2678.0   | 3836.0   | 2161.0 | 1.0         | 443.0         | -587.0      | 0.06        | 1     | 9         | 0.10            | 0      |
 
+### Univariate Analysis
+
 
 ## Assessment of Missingness
 
