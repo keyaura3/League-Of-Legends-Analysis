@@ -92,10 +92,18 @@ Alternative Hypothesis: The distribution of `results` is different when `earnedg
 conclude that they are not dependent
 
 ## Hypothesis Test 
+Null Hypothesis: Players with higher positive differentials (`csat10_diff`, `goldat15_diff`, `xpat10_diff`) are likely to have the same amount of kills as everyone else. 
+Alternative Hypothesis: Players with higher positive differentials (`csat10_diff`, `goldat15_diff`, `xpat10_diff`) are more likely to have higher kills
+
+For this test, I compared, the differentials of players with above-median kills to those with below-median kills using permutation testing, and having the test statistic be the absolute difference between the observed difference and the given. 
+
 
 ## Framing a Prediction Problem
+For the prediction problem, I will be training a model to predict `goldat15`, a later game statistic based on the early game variable (`goldat10`, `xpat10`, `csat10`). To do this, I will be using a binary classifier and I will be using both an F1 score and an accuracy score for this prediction because ... 
+I will be using 20% of the data to train and 80% for testing to prevent overfitting the data. The features used were `csat10_diff` (quantitative), `goldat15_diff`(quatitiative), `xpat10_diff`(quantitative), `damageshare`, `position`
 
 ## Baseline Model
+For the baseline model, I used a preprocessor and Random Forest Classifier to train the data on
 
 ## Final Model 
 
