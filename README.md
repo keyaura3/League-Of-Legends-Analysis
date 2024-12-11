@@ -1,4 +1,4 @@
-# League of Legends Game Contribution Analysis
+# League of Legends Early Statistics Analysis
 Final Project for DSC 80 at UCSD 
 
 Matti Key
@@ -24,46 +24,83 @@ The dataset comprises over 150,000 rows and 160 columns, capturing granular info
 |------------------|-----------------------------------------------------------------------------|
 | `position`       | The role or lane assigned to the player in the game: Top Lane, Jungle, Mid Lane, Bot Lane (ADC), or Support. |
 | `goldat10`       | The total amount of gold earned by the player by the 10-minute mark in the game. |
-| `goldat15`       | The total amount of gold earned by the player by the 15-minute mark in the game. |
 | `xpat10`         | The total experience points accumulated by the player by the 10-minute mark. |
-| `csat10_diff`    | The difference in creep score (CS, which measures minions and monsters killed) at the 10-minute mark compared to the lane opponent or average competitor. |
-| `goldat15_diff`  | The difference in gold earned by the 15-minute mark compared to the lane opponent or average competitor. |
-| `xpat10_diff`    | The difference in experience points at the 10-minute mark compared to the lane opponent or average competitor. |
+| `csat10`         | The total creep score (CS), which measures the number of minions and monsters killed by the player, by the 10-minute mark. |
+| `csdiffat10`     | The difference in creep score at the 10-minute mark compared to the lane opponent or average competitor. |
+| `xpdiffat10`     | The difference in experience points at the 10-minute mark compared to the lane opponent or average competitor. |
+| `golddiffat15`   | The difference in gold earned by the 15-minute mark compared to the lane opponent or average competitor. |
+| `opp_goldat10`   | The total gold earned by the lane opponent by the 10-minute mark.           |
+| `goldat25`       | The total amount of gold earned by the player by the 25-minute mark.        |
+| `killsat15`      | The total number of kills secured by the player by the 15-minute mark.      |
 | `damageshare`    | The proportion of the team's total damage dealt to champions attributed to the player. |
-| `kills`          | The total number of kills secured by the player during the game. |
-| `teamkills`      | The total number of kills achieved by the player’s team during the game. |
-| `earnedgoldshare`| The percentage of the team’s total gold earned by the player. |
+| `kills`          | The total number of kills secured by the player during the game.            |
+| `teamkills`      | The total number of kills achieved by the player’s team during the game.    |
+| `earnedgoldshare`| The percentage of the team’s total gold earned by the player.               |
 | `result`         | The outcome of the game for the player’s team, typically represented as `1` (Win) or `0` (Loss). |
+
 
 These columns were chosen because they provide insight into the early-game performance of players (`goldat10`, `xpat10`, etc.) and the outcomes of those performances (`result`, `damageshare`, etc.). By analyzing these metrics, the project seeks to uncover how individual contributions at specific points in the game influence overall success.
 [Link to Original LoL Dataset](https://en.wikipedia.org/wiki/League_of_Legends) 
 
 ## Data Cleaning and Explanatory Data Analysis
-### Data Cleaning
-The first thing I did when cleaning this dataset was only focus on the columns that I thought would have some kind of significance to the question at hand. So, the first thing I did was only keep the columns, I needed for the analysis and got rid of all the other ones, so now, instead of 160 columns the dataset only has 12. After looking through the data, it became clear that a lot of the values were missing, so for quantitative columns, I decided to use mean imputation to tackle the Null values and for the categorical column (`position`), I decided to drop those columns as there is no way to verify the positions of the missing without affecting the rest of the data. With that being said, the first few rows of the data frame look as follows:
+### Data Cleaning Steps
 
-| position   | goldat10 | goldat15 | xpat10 | csat10_diff | goldat15_diff | xpat10_diff | damageshare | kills | teamkills | earnedgoldshare | result |
-|------------|----------|----------|--------|-------------|---------------|-------------|-------------|-------|-----------|-----------------|--------|
-| Top Lane   | 3228.0   | 5025.0   | 4909.0 | 8.0         | 391.0         | -44.0       | 0.28        | 2     | 9         | 0.25            | 0      |
-| Jungle     | 3429.0   | 5366.0   | 3484.0 | -5.0        | 541.0         | 432.0       | 0.21        | 2     | 9         | 0.19            | 0      |
-| Mid Lane   | 3283.0   | 5118.0   | 4556.0 | 0.0         | -475.0        | 71.0        | 0.25        | 2     | 9         | 0.21            | 0      |
-| Bot Lane   | 3600.0   | 5461.0   | 3103.0 | -12.0       | -793.0        | 265.0       | 0.20        | 2     | 9         | 0.24            | 0      |
-| Support    | 2678.0   | 3836.0   | 2161.0 | 1.0         | 443.0         | -587.0      | 0.06        | 1     | 9         | 0.10            | 0      |
+The data cleaning process was guided by the goal of making the dataset relevant and usable for analysis while preserving its integrity and handling missing values appropriately. Below is a detailed breakdown of the steps taken:
+
+#### 1. Standardizing Position Names
+The `position` column contained abbreviations (e.g., `top`, `jng`) which were inconsistent with the rest of the dataset. To standardize these values, I mapped each abbreviation to its full descriptive name (e.g., `top` → `Top Lane`, `jng` → `Jungle`). This ensures clarity and consistency, which is essential for categorical analysis.
+
+#### 2. Selecting Relevant Columns
+The original dataset contained 160 columns, many of which were irrelevant to the analysis. To focus on meaningful variables, I retained only 15 columns that were directly related to in-game performance metrics and outcomes. These included:
+
+- **Quantitative columns**: `goldat10`, `xpat10`, `csat10`, `csdiffat10`, `xpdiffat10`, `golddiffat15`, `opp_goldat10`, `goldat25`, `killsat15`, `damageshare`, `kills`, `teamkills`, `earnedgoldshare`.
+- **Categorical columns**: `position`, `result`.
+
+By narrowing down the columns, I reduced the dataset's dimensionality, making it more efficient to analyze while preserving all critical information.
+
+#### 3. Identifying and Separating Player-Level Data
+Rows where the `position` column was missing were identified as team summary rows (i.e., not specific to individual players). To handle these cases, I created a new column, `is_player`, that marks whether a row corresponds to a player (`True`) or not (`False`). This separation allows the analysis to focus exclusively on player-level data.
+
+#### 4. Handling Missing Values
+- For **numeric columns**, I used mean imputation to fill missing values. This choice maintains the overall distribution of the data while avoiding the introduction of biases that might occur with arbitrary replacements.
+- For the **categorical column** (`position`), I dropped rows with missing values. Since there is no reliable way to impute positions without affecting the data's integrity, this step prevents inaccuracies in categorical analysis.
+
+These cleaning steps ensured that the dataset was consistent, relevant, and free from missing values that could skew the results.
+
+
+| position    | goldat10 | xpat10 | csat10 | csdiffat10 | xpdiffat10 | golddiffat15 | opp_goldat10 | goldat25 | killsat15 | damageshare | kills | teamkills | earnedgoldshare | result | is_player |
+|-------------|----------|--------|--------|------------|------------|--------------|--------------|----------|-----------|-------------|-------|-----------|-----------------|--------|-----------|
+| Top Lane    | 3228.0   | 4909.0 | 89.0   | 8.0        | -44.0      | 391.0        | 3176.0       | 8462.0   | 0.0       | 0.28        | 2     | 9         | 0.25            | 0      | True      |
+| Jungle      | 3429.0   | 3484.0 | 58.0   | -5.0       | 432.0      | 541.0        | 2944.0       | 8254.0   | 2.0       | 0.21        | 2     | 9         | 0.19            | 0      | True      |
+| Mid Lane    | 3283.0   | 4556.0 | 81.0   | 0.0        | 71.0       | -475.0       | 3121.0       | 8312.0   | 0.0       | 0.25        | 2     | 9         | 0.21            | 0      | True      |
+| Bot Lane    | 3600.0   | 3103.0 | 78.0   | -12.0      | 265.0      | -793.0       | 3304.0       | 9356.0   | 2.0       | 0.20        | 2     | 9         | 0.24            | 0      | True      |
+| Support     | 2678.0   | 2161.0 | 16.0   | 1.0        | -587.0     | 443.0        | 2150.0       | 5840.0   | 1.0       | 0.06        | 1     | 9         | 0.10            | 0      | True      |
+
 
 ### Univariate Analysis
-
-First, I want to look at the distribution of the total amount of gold earned by a player at the 10-minute mark.
-<iframe src="graphs/goldat10.html" width="800" height="600" frameborder="0" ></iframe>As shown, there looks to be a "mini" bimodal graph, where a majority of the distribution is between the bins 2k and 5.5k, but another small peak between the bins 14k and 17k, but the graph is still heavily skewed to the right. This could be due to a number of things. 
-
-To get a better sense of the distribution, I want to create a boxplot that contains the distribution of the goldat10 and xpat10 by position to see if that could explain why the historgram above is so spread. <iframe src="graphs/bivariate2.html" width="800" height="600" frameborder="0" ></iframe> Based on this graph, it looks like although the mean for most of the positions in the univariate and bivariate are similar, there are a lot of outliers that influence the distribution. 
+To begin the analysis, I examined the distribution of the total amount of gold earned by a player at the 25-minute mark, which is towards the later stages of the game. The original plot exhibited a widely spread distribution, making it challenging to interpret. To address this, I applied a logarithmic transformation to the data, resulting in a more readable and interpretable visualization.
+<iframe src="graphs/UniGoldat25.html" width="800" height="600" frameborder="0"></iframe>
 
 ### Bivariate Analysis
-
-Now I want to focus on a different column, that may also hold a significant amount of weight when it comes to an individual's statistics, the kills. Here, I created a boxplot that shows the distribution of kills on winning teams vs losing teams. <iframe src="graphs/bivariate3.html" width="800" height="600" frameborder="0" ></iframe> On average, winning teams, tend to have more kills in the beginning of the game, but not by a significant amount. 
-
+To explore the factors influencing gold accumulation patterns, I created a boxplot comparing the distributions of gold at 10 minutes and experience points at 10 minutes, segmented by player positions. This visualization reveals significant variability within each role, with notable outliers that suggest certain positions have a disproportionate impact on resource accumulation. Below is the boxplot:
+<iframe src="graphs/bivariate2.html" width="800" height="600" frameborder="0"></iframe>
+Next, I examined the relationship between kills and match outcomes (win/loss). The boxplot below shows the distribution of kills on winning teams versus losing teams. Winning teams tend to have slightly more kills by the 15-minute mark on average, though the difference is not substantial. This suggests that while kills provide some advantage, they are not the sole determinant of victory.
+<iframe src="graphs/bivariate3.html" width="800" height="600" frameborder="0"></iframe>
+These visualizations highlight the role-specific impact and nuanced relationships between game metrics, providing deeper insights into gameplay strategies.
 
 ### Interesting Aggregates
-I grouped together the positions, and found the average goldat10, the standard deviation of goldat10, the average xpat10, and the standard deviation xpat10. With this, we can see that the average gold and experience varies a lot on the position someone is playing, hence showing that not all roles are able to earn the same amount of gold. The pivot table is shown below:
+To further analyze the data, I grouped the dataset by player positions and calculated the following aggregate statistics for each position:
+- Average Gold at 10 minutes (Avg Gold at 10)
+- Standard Deviation of Gold at 10 minutes (Std Gold at 10)
+- Average Experience Points at 10 minutes (Avg XP at 10)
+- Standard Deviation of Experience Points at 10 minutes (Std XP at 10)
+  
+This grouped table provides insights into the variation in resource accumulation by position. The table reveals that:
+- Gold at 10 minutes: The average gold earned varies significantly by position, with Support earning the least and Mid Lane earning the most on average.
+- Experience Points at 10 minutes: Similarly, the average experience points are also position-dependent, with Support trailing significantly behind other roles.
+- Variability: Standard deviations highlight the inherent variability within each role, with Support showing a larger spread in both gold and experience compared to other positions.
+  
+These findings underscore the role-specific dynamics in gameplay, where resource availability and accumulation are directly influenced by a player’s position. Below is the grouped table:
 
 | Position   | Avg Gold at 10 | Std Gold at 10 | Avg XP at 10 | Std XP at 10 |
 |------------|----------------|----------------|--------------|--------------|
@@ -75,7 +112,11 @@ I grouped together the positions, and found the average goldat10, the standard d
 
 ## Assessment of Missingness
 ### NMAR Analysis 
-I think that the columns 
+In this dataset, I believe the column `is_player` is Not Missing At Random (NMAR). This column appears to indicate whether the data corresponds to an actual player or not. Missingness in this column is likely tied to the specific value it represents—for example, a value might be missing if the entry doesn't correspond to a player but instead to a bot, substitute, or other non-standard entity. The missingness could depend on unobserved factors, such as how the game records entities that are not considered players, which makes it NMAR.
+
+To potentially classify this missingness as Missing at Random (MAR), additional data would be required. For instance, if there was a column that explicitly identified whether the entry pertains to a bot, substitute, or external data source, it would allow us to determine if the missingness in `is_player` is dependent on this observed data. With this information, we could analyze whether the missingness depends on observable factors rather than unobserved ones.
+
+This analysis helps understand how missing values in `is_player` could be addressed and the potential limitations of interpreting data without additional context.
 
 ### Missingness Dependency
 In this missingness test, 
@@ -99,12 +140,13 @@ For this test, I compared, the differentials of players with above-median kills 
 
 
 ## Framing a Prediction Problem
-For the prediction problem, I will be training a model to predict `goldat15`, a later game statistic based on the early game variable (`goldat10`, `xpat10`, `csat10`). To do this, I will be using a binary classifier and I will be using both an F1 score and an accuracy score for this prediction because ... 
+For the prediction problem, I will be training a model to predict `goldat25`, a later game statistic based on the early game variable (`goldat10`, `xpat10`, `csat10`). To do this, I will be using a binary classifier and I will be using both an F1 score and an accuracy score for this prediction because ... 
 I will be using 20% of the data to train and 80% for testing to prevent overfitting the data. The features used were `csat10_diff` (quantitative), `goldat15_diff`(quatitiative), `xpat10_diff`(quantitative), `damageshare`, `position`
 
 ## Baseline Model
-For the baseline model, I used a preprocessor and Random Forest Classifier to train the data on
+For the baseline model, I used a preprocessor and Random Forest Classifier to train the data on 
 
 ## Final Model 
+After reviewing the baseline model and the values given, I reconsidered the type od model I should be using. Regression model may work better for me
 
 ## Fairness Analysis
