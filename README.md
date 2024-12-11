@@ -151,15 +151,67 @@ Below is a plot of the null distribution of the TVD along with the observed TVD:
 
 
 ## Hypothesis Test 
-**Null Hypothesis:** Players with higher positive differentials (`csat10_diff`, `goldat15_diff`, `xpat10_diff`) are likely to have the same amount of kills as everyone else. 
-**Alternative Hypothesis:** Players with higher positive differentials (`csat10_diff`, `goldat15_diff`, `xpat10_diff`) are more likely to have higher kills
+### Hypothesis
+- **Null Hypothesis:** Players with higher positive differentials (`csat10_diff`, `goldat15_diff`, `xpat10_diff`) are likely to have the same amount of `kills` as everyone else. 
+- **Alternative Hypothesis:** Players with higher positive differentials (`csat10_diff`, `goldat15_diff`, `xpat10_diff`) are more likely to have higher `kills`
 
-For this test, I compared, the differentials of players with above-median kills to those with below-median kills using permutation testing, and having the test statistic be the absolute difference between the observed difference and the given. 
+### Test Statistic
+- I chose the **T-statistic** for this test because it allows us to determine whether there is a statistically significant difference between the means of two populations. This is appropriate for comparing the `kills` of players with high differentials against the rest of the population.
+
+## Methodology
+1. I separated the population into two groups:
+   - **High Positive Diff Group:** Players with positive differentials (`csat10_diff`, `goldat15_diff`, `xpat10_diff` > 0).
+   - **Rest Group:** All other players.
+2. I calculated the mean `kills` for both groups:
+   - Mean kills (High Positive Diff Group): **6.47**
+   - Mean kills (Rest Group): **4.35**
+3. I performed a two-sample t-test to compare the distributions of `kills` between these groups.
+
+## Results
+- **p-value:** **0.0**
+- **Conclusion:** Since the p-value is below the standard significance level of 0.05, we reject the null hypothesis. This indicates that there is strong evidence to suggest that players with higher positive differentials (`csat10_diff`, `goldat15_diff`, `xpat10_diff`) are more likely to achieve higher `kills`.
+
+## Justification of Choices
+- **Hypotheses:** These hypotheses are directly tied to the goal of understanding whether positive differentials in key metrics (gold, experience, and creep score) translate to higher kills.
+- **T-statistic:** This choice is well-suited for testing the difference in means between two independent groups.
+- **p-value Interpretation:** The p-value indicates the likelihood of observing the test statistic under the null hypothesis. A p-value of 0.0 provides very strong evidence against the null hypothesis, suggesting a significant difference between the groups.
+
+## Visualization
+Below is a density plot comparing the empirical distributions of `kills` for the two groups. The observed T-statistic of **53.06** is marked on the plot, further illustrating the difference in distributions.
+
+<iframe src="graphs/hyp4.html" width="800" height="600" frameborder="0"></iframe>
 
 
 ## Framing a Prediction Problem
-For the prediction problem, I will be training a model to predict `goldat25`, a later game statistic based on the early game variable (`goldat10`, `xpat10`, `csat10`). To do this, I will be using a binary classifier and I will be using both an F1 score and an accuracy score for this prediction because ... 
-I will be using 20% of the data to train and 80% for testing to prevent overfitting the data. The features used were `csat10_diff` (quantitative), `goldat15_diff`(quatitiative), `xpat10_diff`(quantitative), `damageshare`, `position`
+The goal of this prediction problem is to train a model to predict whether a player’s `goldat25` (a later-game statistic) exceeds a certain threshold based on early-game variables (`goldat10`, `xpat10`, `csat10`) and other features. This is a **binary classification problem**, as the outcome (`goldat25`) is categorized into two classes: players who meet or exceed the threshold and players who do not.
+
+### Response Variable
+The response variable for this prediction is **`goldat25`**. It was chosen because it serves as a key performance indicator of a player’s success and progression later in the game. Predicting this value based on early-game statistics is valuable for identifying impactful early-game behaviors and improving strategic decision-making.
+
+### Features
+The following features are used in the model, ensuring that only information available at the **time of prediction** (early-game statistics) is included:
+- **`csat10_diff` (quantitative):** Creep score differential at 10 minutes.
+- **`goldat15_diff` (quantitative):** Gold differential at 15 minutes.
+- **`xpat10_diff` (quantitative):** Experience point differential at 10 minutes.
+- **`damageshare` (quantitative):** Share of total damage dealt by the player.
+- **`position` (categorical):** Player’s role in the game.
+
+These features were selected because they are early-game metrics that can influence mid- and late-game performance and are available at the time of prediction.
+
+### Evaluation Metrics
+To evaluate the model, I will use both the **F1-score** and **accuracy** as evaluation metrics:
+- **F1-Score:** The F1-score is chosen because it balances precision and recall, making it suitable for binary classification tasks with imbalanced datasets (if one class is more frequent than the other).
+- **Accuracy:** Accuracy is included as a baseline metric to measure the overall proportion of correct predictions. While it provides a general sense of model performance, it is less reliable than F1-score when class distribution is imbalanced.
+
+By using both metrics, I can ensure that the model performs well across different aspects of classification.
+
+### Data Splitting
+To prevent overfitting, I will split the data into:
+- **Training Set:** 80% of the data
+- **Testing Set:** 20% of the data
+
+This split ensures sufficient data for training while maintaining enough unseen data for robust evaluation.
+
 
 ## Baseline Model
 For the baseline model, I used a preprocessor and Random Forest Classifier to train the data on 
