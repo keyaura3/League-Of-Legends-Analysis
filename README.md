@@ -20,7 +20,6 @@ By answering this question, this project aims to provide a deeper understanding 
 ### Dataset Overview
 The dataset comprises over 150,000 rows and 160 columns, capturing granular information about individual players, team dynamics, and game outcomes. For the purposes of this analysis, the following columns are most relevant:
 
-<div style="overflow-x: auto;">
   
 | Column Name      | Description                                                                 |
 |------------------|-----------------------------------------------------------------------------|
@@ -40,7 +39,6 @@ The dataset comprises over 150,000 rows and 160 columns, capturing granular info
 | `earnedgoldshare`| The percentage of the team’s total gold earned by the player.               |
 | `result`         | The outcome of the game for the player’s team, typically represented as `1` (Win) or `0` (Loss). |
 
-</div>
 
 These columns were chosen because they provide insight into the early-game performance of players (`goldat10`, `xpat10`, etc.) and the outcomes of those performances (`result`, `damageshare`, etc.). By analyzing these metrics, the project seeks to uncover how individual contributions at specific points in the game influence overall success.
 [Link to Original LoL Dataset](https://en.wikipedia.org/wiki/League_of_Legends) 
@@ -70,7 +68,6 @@ Rows where the `position` column was missing were identified as team summary row
 
 These cleaning steps ensured that the dataset was consistent, relevant, and free from missing values that could skew the results.
 
-<div style="overflow-x: auto; white-space: nowrap;">
   
 | position    | goldat10 | xpat10 | csat10 | csdiffat10 | xpdiffat10 | golddiffat15 | opp_goldat10 | goldat25 | killsat15 | damageshare | kills | teamkills | earnedgoldshare | result | is_player |
 |-------------|----------|--------|--------|------------|------------|--------------|--------------|----------|-----------|-------------|-------|-----------|-----------------|--------|-----------|
@@ -80,7 +77,6 @@ These cleaning steps ensured that the dataset was consistent, relevant, and free
 | Bot Lane    | 3600.0   | 3103.0 | 78.0   | -12.0      | 265.0      | -793.0       | 3304.0       | 9356.0   | 2.0       | 0.20        | 2     | 9         | 0.24            | 0      | True      |
 | Support     | 2678.0   | 2161.0 | 16.0   | 1.0        | -587.0     | 443.0        | 2150.0       | 5840.0   | 1.0       | 0.06        | 1     | 9         | 0.10            | 0      | True      |
 
-</div>
 
 ### Univariate Analysis
 To begin the analysis, I examined the distribution of the total amount of gold earned by a player at the 25-minute mark, which is towards the later stages of the game. The original plot exhibited a widely spread distribution, making it challenging to interpret. To address this, I applied a logarithmic transformation to the data, resulting in a more readable and interpretable visualization.
@@ -132,13 +128,11 @@ To evaluate the dependency of missing values in the dataset, I conducted permuta
 
 ##### Results:
 - Observed Total Variation Distance (TVD): **0.0894**
-- p-value: *#*0.001**
+- p-value: **0.001**
 - **Conclusion:** Since the p-value is below the standard threshold of 0.05, we reject the null hypothesis. This result suggests that the missingness in `goldat25` is dependent on the missingness of `opp_goldat10`.
 
 Below is a plot of the null distribution of the TVD along with the observed TVD:
-
 <iframe src="graphs/tvd1.html" width="800" height="600" frameborder="0"></iframe>
-
 
 #### Dependency on `earnedgoldshare`
 
@@ -151,21 +145,19 @@ Below is a plot of the null distribution of the TVD along with the observed TVD:
 - **Conclusion:** Since the p-value is significantly greater than 0.05, we fail to reject the null hypothesis. This indicates that the missingness in `goldat25` is not dependent on the missingness of `earnedgoldshare`.
 
 Below is a plot of the null distribution of the TVD along with the observed TVD:
-
 <iframe src="graphs/tvd2.html" width="800" height="600" frameborder="0"></iframe>
-
 
 ## Hypothesis Test 
 ### Hypothesis
-- **Null Hypothesis:** Players with higher positive differentials (`csat10_diff`, `goldat15_diff`, `xpat10_diff`) are likely to have the same amount of `kills` as everyone else. 
-- **Alternative Hypothesis:** Players with higher positive differentials (`csat10_diff`, `goldat15_diff`, `xpat10_diff`) are more likely to have higher `kills`
+- **Null Hypothesis:** Players with higher positive differentials (`csdiffat10`, `golddiffat15`, `xpdiffat10`) are likely to have the same amount of `kills` as everyone else. 
+- **Alternative Hypothesis:** Players with higher positive differentials (`csdiffat10`, `golddiffat15`, `xpdiffat10`) are more likely to have higher `kills`
 
 ### Test Statistic
 - I chose the **T-statistic** for this test because it allows us to determine whether there is a statistically significant difference between the means of two populations. This is appropriate for comparing the `kills` of players with high differentials against the rest of the population.
 
-## Methodology
+### Methodology
 1. I separated the population into two groups:
-   - **High Positive Diff Group:** Players with positive differentials (`csat10_diff`, `goldat15_diff`, `xpat10_diff` > 0).
+   - **High Positive Diff Group:** Players with positive differentials (`csdiffat10`, `golddiffat15`, `xpdiffat10` > 0).
    - **Rest Group:** All other players.
 2. I calculated the mean `kills` for both groups:
    - Mean kills (High Positive Diff Group): **6.47**
@@ -174,18 +166,15 @@ Below is a plot of the null distribution of the TVD along with the observed TVD:
 
 ## Results
 - **p-value:** **0.0**
-- **Conclusion:** Since the p-value is below the standard significance level of 0.05, we reject the null hypothesis. This indicates that there is strong evidence to suggest that players with higher positive differentials (`csat10_diff`, `goldat15_diff`, `xpat10_diff`) are more likely to achieve higher `kills`.
+- **Conclusion:** Since the p-value is below the standard significance level of 0.05, we reject the null hypothesis. This indicates that there is strong evidence to suggest that players with higher positive differentials (`csdiffat10`, `golddiffat15`, `xpdiffat10`) are more likely to achieve higher `kills`.
 
 ## Justification of Choices
 - **Hypotheses:** These hypotheses are directly tied to the goal of understanding whether positive differentials in key metrics (gold, experience, and creep score) translate to higher kills.
 - **T-statistic:** This choice is well-suited for testing the difference in means between two independent groups.
 - **p-value Interpretation:** The p-value indicates the likelihood of observing the test statistic under the null hypothesis. A p-value of 0.0 provides very strong evidence against the null hypothesis, suggesting a significant difference between the groups.
 
-## Visualization
 Below is a density plot comparing the empirical distributions of `kills` for the two groups. The observed T-statistic of **53.06** is marked on the plot, further illustrating the difference in distributions.
-
 <iframe src="graphs/hyp4.html" width="800" height="600" frameborder="0"></iframe>
-
 
 ## Framing a Prediction Problem
 The goal of this prediction problem is to train a model to predict whether a player’s `goldat25` (a later-game statistic) exceeds a certain threshold based on early-game variables (`goldat10`, `xpat10`, `csat10`) and other features. This is a **binary classification problem**, as the outcome (`goldat25`) is categorized into two classes: players who meet or exceed the threshold and players who do not.
@@ -197,8 +186,7 @@ The response variable for this prediction is **`goldat25`**. It was chosen becau
 The following features are used in the model, ensuring that only information available at the **time of prediction** (early-game statistics) is included:
 - **`csat10` (quantitative)**
 - **`goldat10` (quantitative):** 
-- **`xpat10` (quantitative):** 
-- **`damageshare` (quantitative):** 
+- **`xpat10` (quantitative):**  
 - **`position` (categorical):**
   
 These features were selected because they are early-game metrics that can influence mid- and late-game performance and are available at the time of prediction.
@@ -237,7 +225,7 @@ The model demonstrates relatively high accuracy and a strong F1 score, indicatin
 - `goldat25` is a continuous variable, and binarizing it might result in a loss of information.
 - Regression models could better predict the continuous nature of `goldat25` and provide more actionable insights.
 
-### Future Improvements
+### For the Final Model...
 After reviewing the baseline model, it is clear that transitioning to a **regression model** instead of a classification model will allow for direct prediction of `goldat25` values. This approach avoids the need for arbitrary thresholds and retains the richness of the data. The next iteration of the model will focus on:
 1. **Building a regression model** (e.g., Random Forest Regressor or Gradient Boosting Regressor).
 2. **Refining feature engineering**, potentially adding derived features that may correlate with `goldat25`.
@@ -266,3 +254,39 @@ The performance of the final model is summarized as follows:
 The switch from a classification approach to a regression model aligns better with the data structure and provides a more nuanced understanding of the relationship between early-game features and mid-game performance. The final model’s high R² and low RMSE demonstrate a marked improvement in predictive accuracy over the baseline model.
 
 ## Fairness Analysis
+
+### Groups
+- **Group X:** Players grouped by their positions (e.g., Top Lane, Jungle, Mid Lane, Bot Lane, Support).
+- **Group Y:** Predicted performance (`goldat25`) based on early-game metrics.
+
+### Evaluation Metric
+The evaluation metric used is the **Root Mean Squared Error (RMSE)** for each position. RMSE measures the average difference between predicted and actual values, making it a robust metric for assessing the accuracy of the regression model across different groups.
+
+### Hypotheses
+- **Null Hypothesis (H₀):** The model's RMSE is consistent across all player positions, indicating no evidence of unfairness.
+- **Alternative Hypothesis (H₁):** The model's RMSE varies significantly across player positions, suggesting potential unfairness.
+
+### Test Statistic
+The test statistic is the difference between the maximum and minimum RMSE across positions. This statistic quantifies the variation in prediction accuracy among different groups.
+
+### Significance Level
+The significance level (α) is set at **0.05**, which means we will reject the null hypothesis if the p-value is less than 0.05.
+
+### Methodology
+1. **Observed Difference:** Compute the observed difference in RMSE across positions using the actual position labels.
+2. **Permutation Test:** Randomly shuffle the `position` column 10,000 times to generate a null distribution of the test statistic. For each permutation:
+   - Compute the RMSE for each position based on the shuffled data.
+   - Calculate the difference between the maximum and minimum RMSE across positions.
+3. **P-value:** Calculate the proportion of permutation differences greater than or equal to the observed difference.
+
+### Results
+- **Observed Difference:** The observed difference in RMSE across positions (calculated from the original data).
+- **P-value:** The proportion of permutations with a test statistic greater than or equal to the observed difference.
+
+#### Conclusion
+- **P-value:** The resulting p-value was **0.842**.
+  - p-value > 0.05: *We fail to reject the null hypothesis and conclude that there is  no evidence of unfairness across positions.*
+This analysis evaluates whether the model's predictive accuracy is consistent across all player positions, ensuring fairness in its application. A low p-value would indicate potential biases, while a high p-value suggests no significant evidence of unfairness.
+
+<iframe src="graphs/fairness2.html" width="800" height="600" frameborder="0"></iframe>
+
