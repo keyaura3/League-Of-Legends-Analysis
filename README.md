@@ -119,22 +119,40 @@ To potentially classify this missingness as Missing at Random (MAR), additional 
 This analysis helps understand how missing values in `is_player` could be addressed and the potential limitations of interpreting data without additional context.
 
 ### Missingness Dependency
-In this missingness test, 
+To evaluate the dependency of missing values in the dataset, I conducted permutation tests. Specifically, I tested whether the missingness in the `goldat25` column is dependent on the columns `opp_goldat10` and `earnedgoldshare`. Below are the tests, hypotheses, and results.
 
-Null Hypothesis: The distribution of the `results` is the same when `goldat10` is missing vs when it is not missing.
-Alternative Hypothesis: The distribution of `results` is different when `goldat10` is missing vs when it is not missing. 
-<>
-I observed a TVD of 0.478 with a p-value of 0.0. With these statistics, I reject the null hypothesis and conclude that `results` is dependent on `goldat10`.
+#### Dependency on `opp_goldat10`
+- **Null Hypothesis (H₀):** The distribution of `goldat25` is the same regardless of whether `opp_goldat10` is missing or not.
+- **Alternative Hypothesis (H₁):** The distribution of `goldat25` is different when `opp_goldat10` is missing compared to when it is not missing.
 
-Now I will look at the missingness between  `earnedgoldshare` and `result`.
-Null Hypothesis: The distribution of the `results` is the same when `earnedgoldshare` is missing vs when it is not missing. 
-Alternative Hypothesis: The distribution of `results` is different when `earnedgoldshare` is missing vs when it is not missing. 
-<>
-conclude that they are not dependent
+##### Results:
+- Observed Total Variation Distance (TVD): **0.0894**
+- p-value: *#*0.001**
+- **Conclusion:** Since the p-value is below the standard threshold of 0.05, we reject the null hypothesis. This result suggests that the missingness in `goldat25` is dependent on the missingness of `opp_goldat10`.
+
+Below is a plot of the null distribution of the TVD along with the observed TVD:
+
+<iframe src="graphs/tvd1.html" width="800" height="600" frameborder="0"></iframe>
+
+
+#### Dependency on `earnedgoldshare`
+
+- **Null Hypothesis (H₀):** The distribution of `goldat25` is the same regardless of whether `earnedgoldshare` is missing or not.
+- **Alternative Hypothesis (H₁):** The distribution of `goldat25` is different when `earnedgoldshare` is missing compared to when it is not missing.
+
+##### Results:
+- Observed Total Variation Distance (TVD): **0.023**
+- p-value: **1.0**
+- **Conclusion:** Since the p-value is significantly greater than 0.05, we fail to reject the null hypothesis. This indicates that the missingness in `goldat25` is not dependent on the missingness of `earnedgoldshare`.
+
+Below is a plot of the null distribution of the TVD along with the observed TVD:
+
+<iframe src="graphs/tvd2.html" width="800" height="600" frameborder="0"></iframe>
+
 
 ## Hypothesis Test 
-Null Hypothesis: Players with higher positive differentials (`csat10_diff`, `goldat15_diff`, `xpat10_diff`) are likely to have the same amount of kills as everyone else. 
-Alternative Hypothesis: Players with higher positive differentials (`csat10_diff`, `goldat15_diff`, `xpat10_diff`) are more likely to have higher kills
+**Null Hypothesis:** Players with higher positive differentials (`csat10_diff`, `goldat15_diff`, `xpat10_diff`) are likely to have the same amount of kills as everyone else. 
+**Alternative Hypothesis:** Players with higher positive differentials (`csat10_diff`, `goldat15_diff`, `xpat10_diff`) are more likely to have higher kills
 
 For this test, I compared, the differentials of players with above-median kills to those with below-median kills using permutation testing, and having the test statistic be the absolute difference between the observed difference and the given. 
 
