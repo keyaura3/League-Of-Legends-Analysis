@@ -190,12 +190,12 @@ The response variable for this prediction is **`goldat25`**. It was chosen becau
 
 ### Features
 The following features are used in the model, ensuring that only information available at the **time of prediction** (early-game statistics) is included:
-- **`csat10_diff` (quantitative):** Creep score differential at 10 minutes.
-- **`goldat15_diff` (quantitative):** Gold differential at 15 minutes.
-- **`xpat10_diff` (quantitative):** Experience point differential at 10 minutes.
-- **`damageshare` (quantitative):** Share of total damage dealt by the player.
-- **`position` (categorical):** Player’s role in the game.
-
+- **`csat10` (quantitative)**
+- **`goldat10` (quantitative):** 
+- **`xpat10` (quantitative):** 
+- **`damageshare` (quantitative):** 
+- **`position` (categorical):**
+  
 These features were selected because they are early-game metrics that can influence mid- and late-game performance and are available at the time of prediction.
 
 ### Evaluation Metrics
@@ -214,9 +214,50 @@ This split ensures sufficient data for training while maintaining enough unseen 
 
 
 ## Baseline Model
+### Model Description
+The current model is a **Random Forest Classifier** used to predict whether a player's in-game performance, based on early-game stats (`goldat10`, `xpat10`, `csat10`), will exceed a certain threshold (`goldat25`). The target variable, `goldat25_class`, was created as a binary classification based on whether `goldat25` exceeds its median value.
+
+### Features in the Model
+1. **Features**:
+   - `goldat10` (Quantitative): Represents the gold collected by the player at the 10-minute mark.
+   - `xpat10` (Quantitative): Represents the experience points accumulated by the player at the 10-minute mark.
+   - `csat10` (Quantitative): Represents the number of minions or creatures killed by the player at the 10-minute mark.
+
+### Model Performance
+- **Accuracy**: 0.8147
+- **F1 Score**: 0.7684
+
+### Assessment of Current Model
+The model demonstrates relatively high accuracy and a strong F1 score, indicating that it performs well in predicting whether players will surpass the median `goldat25` threshold. However, while the classification model provides useful binary predictions, it may not capture the underlying nuances of the dataset. Specifically:
+- `goldat25` is a continuous variable, and binarizing it might result in a loss of information.
+- Regression models could better predict the continuous nature of `goldat25` and provide more actionable insights.
+
+### Future Improvements
+After reviewing the baseline model, it is clear that transitioning to a **regression model** instead of a classification model will allow for direct prediction of `goldat25` values. This approach avoids the need for arbitrary thresholds and retains the richness of the data. The next iteration of the model will focus on:
+1. **Building a regression model** (e.g., Random Forest Regressor or Gradient Boosting Regressor).
+2. **Refining feature engineering**, potentially adding derived features that may correlate with `goldat25`.
+3. **Optimizing hyperparameters** for better performance.
+
+The improvements aim to provide a more precise and interpretable prediction for the final model.
+
 For the baseline model, I used a preprocessor and Random Forest Classifier to train the data on 
 
 ## Final Model 
-After reviewing the baseline model and the values given, I reconsidered the type od model I should be using. Regression model may work better for me
+### Final Model Performance
+The performance of the final model is summarized as follows:
+- **Training RMSE**: 1607.4356
+- **Testing RMSE**: 1625.4875
+- **Training R²**: 0.9850
+- **Testing R²**: 0.9848
+- **Mean Absolute Error (MAE)**: 1097.6798
+
+#### Comparison to Baseline Model:
+- The **Baseline Model** (Random Forest Classifier) achieved an accuracy of 0.8147 and an F1 Score of 0.7684. While these are strong metrics for classification, they reflect a simplified representation of the problem.
+- The **Final Model** significantly improves predictive capability by:
+  - Leveraging the continuous nature of `goldat25` for a more precise prediction.
+  - Achieving high R² values (0.9850 for training, 0.9848 for testing), indicating excellent model fit and predictive power.
+
+### Conclusion
+The switch from a classification approach to a regression model aligns better with the data structure and provides a more nuanced understanding of the relationship between early-game features and mid-game performance. The final model’s high R² and low RMSE demonstrate a marked improvement in predictive accuracy over the baseline model.
 
 ## Fairness Analysis
