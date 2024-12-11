@@ -68,7 +68,7 @@ Rows where the `position` column was missing were identified as team summary row
 
 These cleaning steps ensured that the dataset was consistent, relevant, and free from missing values that could skew the results.
 
-
+<div style="overflow-x: auto; white-space: nowrap;">
 | position    | goldat10 | xpat10 | csat10 | csdiffat10 | xpdiffat10 | golddiffat15 | opp_goldat10 | goldat25 | killsat15 | damageshare | kills | teamkills | earnedgoldshare | result | is_player |
 |-------------|----------|--------|--------|------------|------------|--------------|--------------|----------|-----------|-------------|-------|-----------|-----------------|--------|-----------|
 | Top Lane    | 3228.0   | 4909.0 | 89.0   | 8.0        | -44.0      | 391.0        | 3176.0       | 8462.0   | 0.0       | 0.28        | 2     | 9         | 0.25            | 0      | True      |
@@ -76,7 +76,7 @@ These cleaning steps ensured that the dataset was consistent, relevant, and free
 | Mid Lane    | 3283.0   | 4556.0 | 81.0   | 0.0        | 71.0       | -475.0       | 3121.0       | 8312.0   | 0.0       | 0.25        | 2     | 9         | 0.21            | 0      | True      |
 | Bot Lane    | 3600.0   | 3103.0 | 78.0   | -12.0      | 265.0      | -793.0       | 3304.0       | 9356.0   | 2.0       | 0.20        | 2     | 9         | 0.24            | 0      | True      |
 | Support     | 2678.0   | 2161.0 | 16.0   | 1.0        | -587.0     | 443.0        | 2150.0       | 5840.0   | 1.0       | 0.06        | 1     | 9         | 0.10            | 0      | True      |
-
+</div>
 
 ### Univariate Analysis
 To begin the analysis, I examined the distribution of the total amount of gold earned by a player at the 25-minute mark, which is towards the later stages of the game. The original plot exhibited a widely spread distribution, making it challenging to interpret. To address this, I applied a logarithmic transformation to the data, resulting in a more readable and interpretable visualization.
