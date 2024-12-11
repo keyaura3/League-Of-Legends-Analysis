@@ -21,6 +21,7 @@ By answering this question, this project aims to provide a deeper understanding 
 The dataset comprises over 150,000 rows and 160 columns, capturing granular information about individual players, team dynamics, and game outcomes. For the purposes of this analysis, the following columns are most relevant:
 
 <div style="overflow-x: auto;">
+  
 | Column Name      | Description                                                                 |
 |------------------|-----------------------------------------------------------------------------|
 | `position`       | The role or lane assigned to the player in the game: Top Lane, Jungle, Mid Lane, Bot Lane (ADC), or Support. |
@@ -38,6 +39,7 @@ The dataset comprises over 150,000 rows and 160 columns, capturing granular info
 | `teamkills`      | The total number of kills achieved by the player’s team during the game.    |
 | `earnedgoldshare`| The percentage of the team’s total gold earned by the player.               |
 | `result`         | The outcome of the game for the player’s team, typically represented as `1` (Win) or `0` (Loss). |
+
 </div>
 
 These columns were chosen because they provide insight into the early-game performance of players (`goldat10`, `xpat10`, etc.) and the outcomes of those performances (`result`, `damageshare`, etc.). By analyzing these metrics, the project seeks to uncover how individual contributions at specific points in the game influence overall success.
