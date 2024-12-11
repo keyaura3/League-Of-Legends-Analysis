@@ -32,10 +32,7 @@ The dataset comprises over 150,000 rows and 160 columns, capturing granular info
 | `golddiffat15`   | The difference in gold earned by the 15-minute mark compared to the lane opponent or average competitor. |
 | `opp_goldat10`   | The total gold earned by the lane opponent by the 10-minute mark.           |
 | `goldat25`       | The total amount of gold earned by the player by the 25-minute mark.        |
-| `killsat15`      | The total number of kills secured by the player by the 15-minute mark.      |
-| `damageshare`    | The proportion of the team's total damage dealt to champions attributed to the player. |
 | `kills`          | The total number of kills secured by the player during the game.            |
-| `teamkills`      | The total number of kills achieved by the player’s team during the game.    |
 | `earnedgoldshare`| The percentage of the team’s total gold earned by the player.               |
 | `result`         | The outcome of the game for the player’s team, typically represented as `1` (Win) or `0` (Loss). |
 
@@ -69,13 +66,13 @@ Rows where the `position` column was missing were identified as team summary row
 These cleaning steps ensured that the dataset was consistent, relevant, and free from missing values that could skew the results.
 
   
-| position   |   goldat10 |   xpat10 |   csat10 |   csdiffat10 |   xpdiffat10 |   golddiffat15 |   opp_goldat10 |   goldat25 |   killsat15 |   damageshare |   kills |   teamkills |   earnedgoldshare |   result | is_player   |   goldat25_missing |
-|:-----------|-----------:|---------:|---------:|-------------:|-------------:|---------------:|---------------:|-----------:|------------:|--------------:|--------:|------------:|------------------:|---------:|:------------|-------------------:|
-| Top Lane   |       3228 |     4909 |       89 |            8 |          -44 |            391 |           3176 |       8462 |           0 |     0.278784  |       2 |           9 |          0.253859 |        0 | True        |                  0 |
-| Jungle     |       3429 |     3484 |       58 |           -5 |          432 |            541 |           2944 |       8254 |           2 |     0.208009  |       2 |           9 |          0.19022  |        0 | True        |                  0 |
-| Mid Lane   |       3283 |     4556 |       81 |            0 |           71 |           -475 |           3121 |       8312 |           0 |     0.252086  |       2 |           9 |          0.210665 |        0 | True        |                  0 |
-| Bot Lane   |       3600 |     3103 |       78 |          -12 |          265 |           -793 |           3304 |       9356 |           2 |     0.196358  |       2 |           9 |          0.242201 |        0 | True        |                  0 |
-| Support    |       2678 |     2161 |       16 |            1 |         -587 |            443 |           2150 |       5840 |           1 |     0.0647631 |       1 |           9 |          0.103054 |        0 | True        |                  0 |
+| position   |   goldat10 |   xpat10 |   csat10 |   csdiffat10 |   xpdiffat10 |   golddiffat15 |   opp_goldat10 |   goldat25 |   kills |   earnedgoldshare |   result | is_player   |
+|:-----------|-----------:|---------:|---------:|-------------:|-------------:|---------------:|---------------:|-----------:|--------:|------------------:|---------:|:------------|
+| Top Lane   |       3228 |     4909 |       89 |            8 |          -44 |            391 |           3176 |       8462 |       2 |          0.253859 |        0 | True        |
+| Jungle     |       3429 |     3484 |       58 |           -5 |          432 |            541 |           2944 |       8254 |       2 |          0.19022  |        0 | True        |
+| Mid Lane   |       3283 |     4556 |       81 |            0 |           71 |           -475 |           3121 |       8312 |       2 |          0.210665 |        0 | True        |
+| Bot Lane   |       3600 |     3103 |       78 |          -12 |          265 |           -793 |           3304 |       9356 |       2 |          0.242201 |        0 | True        |
+| Support    |       2678 |     2161 |       16 |            1 |         -587 |            443 |           2150 |       5840 |       1 |          0.103054 |        0 | True        |
 
 
 ### Univariate Analysis
